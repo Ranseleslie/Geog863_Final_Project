@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>New York City Neighborhood Analysis</title>
+  <title>New York City School District Boundaries</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
   <script src="https://js.arcgis.com/4.28/"></script>
 
@@ -22,37 +22,23 @@
     require([
       "esri/Map",
       "esri/views/MapView",
-      "esri/layers/CSVLayer",
-      "esri/geometry/Point",
-      "esri/Graphic",
+      "esri/layers/FeatureLayer",
       "esri/widgets/Legend"
-    ], function(Map, MapView, CSVLayer, Point, Graphic, Legend) {
+    ], function(Map, MapView, FeatureLayer, Legend) {
 
-      // Process the_geom field to extract lat/long
-      function processGeom(geomString) {
-        const coords = geomString.match(/(-?\d+\.\d+)/g);
-        if (coords && coords.length >= 2) {
-          return { lat: parseFloat(coords[1]), lon: parseFloat(coords[0]) };
-        }
-        return null;
-      }
-
-      // Define the CSVLayer with a custom renderer to process lat/lon from the_geom field
-      var csvLayer = new CSVLayer({
-        url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/refs/heads/main/nysd.csv",
+      // Define the FeatureLayer with a URL to your service containing school district polygons
+      var schoolDistrictLayer = new FeatureLayer({
+        url: "YOUR_FEATURE_LAYER_URL",  // Use the actual URL of the GeoJSON or Shapefile service
         popupTemplate: {
-          title: "{SchoolDistrict}",
-          content: function(feature) {
-            const geomData = processGeom(feature.graphic.attributes.the_geom);
-            return geomData ? `Latitude: ${geomData.lat}, Longitude: ${geomData.lon}` : "No valid geometry";
-          }
+          title: "School District: {SCHOOLDIST}",
+          content: "School District Number: {SCHOOL_ID}"
         }
       });
 
       // Initialize the map and view
       var map = new Map({
         basemap: "streets-navigation-vector", // Choose basemap type
-        layers: [csvLayer] // Add CSVLayer to map
+        layers: [schoolDistrictLayer] // Add FeatureLayer to map
       });
 
       var view = new MapView({
@@ -72,3 +58,6 @@
   </script>
 </body>
 </html>
+
+
+ 
