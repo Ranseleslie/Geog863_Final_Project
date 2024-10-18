@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>New York City Neighborhood Analysis</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.28/"></script>
+
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="viewDiv"></div> <!-- Div to display the map -->
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/CSVLayer",
+      "esri/geometry/Point",
+      "esri/Graphic",
+      "esri/widgets/Legend"
+    ], function(Map, MapView, CSVLayer, Point, Graphic, Legend) {
+
+      // Process the_geom field to extract lat/long
+      function processGeom(geomString) {
+        const coords = geomString.match(/(-?\d+\.\d+)/g);
+        if (coords && coords.length >= 2) {
+          return { lat: parseFloat(coords[1]), lon: parseFloat(coords[0]) };
+        }
+        return null;
+      }
+
+      // Define the CSVLayer with a custom renderer to process lat/lon from the_geom field
+      var csvLayer = new CSVLayer({
+        url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/refs/heads/main/nysd.csv"
+        popupTemplate: {
+          title: "{SchoolDistrict}",
+          content: function(feature) {
+            const geomData = processGeom(feature.graphic.attributes.the_geom);
+            return geomData ? `Latitude: ${geomData.lat}, Longitude: ${geomData.lon}` : "No valid geometry";
+          }
+        }
+      });
+
+      // Initialize the map and view
+      var map = new Map({
+        basemap: "streets-navigation-vector", // Choose basemap type
+        layers: [csvLayer] // Add CSVLayer to map
+      });
+
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-74.0060, 40.7128], // Center on NYC
+        zoom: 10
+      });
+
+      // Add a legend to show the data
+      var legend = new Legend({
+        view: view
+      });
+
+      view.ui.add(legend, "top-right");
+    });
+  </script>
+</body>
+</html>
