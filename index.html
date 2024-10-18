@@ -28,7 +28,7 @@
 
       // Define the FeatureLayer with a URL to your service containing school district polygons
       var schoolDistrictLayer = new FeatureLayer({
-        url: "YOUR_FEATURE_LAYER_URL",  // Use the actual URL of the GeoJSON or Shapefile service
+        url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/refs/heads/main/NYS_Schools_-4084863573396545819.csv",  // Use the actual URL of the GeoJSON or Shapefile service
         popupTemplate: {
           title: "School District: {SCHOOLDIST}",
           content: "School District Number: {SCHOOL_ID}"
