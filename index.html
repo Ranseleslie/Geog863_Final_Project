@@ -39,7 +39,7 @@
 
       // Define the CSVLayer with a custom renderer to process lat/lon from the_geom field
       var csvLayer = new CSVLayer({
-        url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/refs/heads/main/nysd.csv"
+        url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/refs/heads/main/nysd.csv",
         popupTemplate: {
           title: "{SchoolDistrict}",
           content: function(feature) {
