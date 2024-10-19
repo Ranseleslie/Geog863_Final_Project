@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,8 @@
     <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
     <script src="https://js.arcgis.com/4.28/"></script>
     <style>
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             height: 100%;
@@ -18,10 +20,52 @@
             height: 100%;
             width: 100%;
         }
+
+        /* Style for mobile devices (screen width 600px or less) */
+        @media only screen and (max-width: 600px) {
+            #legendDiv {
+                font-size: 0.8em;
+            }
+
+            .esri-ui-top-left {
+                left: 10px;
+            }
+
+            .esri-ui-top-right {
+                right: 10px;
+            }
+
+            .esri-ui-bottom-left {
+                bottom: 20px;
+                left: 10px;
+            }
+
+            /* Hide the legend when the screen is small */
+            #legendToggle {
+                display: block;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background-color: white;
+                padding: 5px;
+                border-radius: 5px;
+                cursor: pointer;
+                z-index: 99;
+            }
+
+            #legendDiv {
+                display: none;
+            }
+        }
+
+        /* For desktop, no major changes */
     </style>
 </head>
+
 <body>
+    <!-- This is where the map will be displayed -->
     <div id="viewDiv"></div>
+    <button id="legendToggle">Legend</button> <!-- Button for toggling the legend -->
 
     <script>
         require([
@@ -31,15 +75,13 @@
             "esri/widgets/LayerList",
             "esri/widgets/Expand",
             "esri/widgets/Legend",
-            "esri/widgets/Search"  // Import the Search widget
-        ], function(Map, MapView, GeoJSONLayer, LayerList, Expand, Legend, Search) {
+            "esri/widgets/Search"
+        ], function (Map, MapView, GeoJSONLayer, LayerList, Expand, Legend, Search) {
 
-            // Create the map
             const map = new Map({
                 basemap: "streets-navigation-vector"
             });
 
-            // Create the view, centered on Charlotte, NC
             const view = new MapView({
                 container: "viewDiv",
                 map: map,
@@ -148,21 +190,28 @@
             });
             map.add(shoppingCentersLayer);
 
-            // Add LayerList widget to allow toggling of layers
+            // Create a Search widget for address lookup
+            const searchWidget = new Search({
+                view: view,
+                allPlaceholder: "Search for address or place",
+                includeDefaultSources: true
+            });
+            view.ui.add(searchWidget, { position: "top-left" });
+
+            // LayerList widget
             const layerList = new LayerList({
                 view: view
             });
 
-            // Optionally, wrap the LayerList in an Expand widget to save space
-            const expand = new Expand({
+            const expandLayerList = new Expand({
                 view: view,
                 content: layerList,
                 expandIconClass: "esri-icon-layer-list",
                 expanded: true
             });
-            view.ui.add(expand, "top-right");
+            view.ui.add(expandLayerList, "top-right");
 
-            // Add the Legend widget
+            // Add a Legend widget
             const legend = new Legend({
                 view: view,
                 layerInfos: [
@@ -175,17 +224,41 @@
             });
             view.ui.add(legend, "bottom-left");
 
-            // Add the Search widget (Custom Geocoder)
-            const searchWidget = new Search({
-                view: view, // The view where the search will be added
-                allPlaceholder: "Search for address or place", // Placeholder text
-                includeDefaultSources: true // Includes the default Esri World Geocoding service
+            // Mobile-specific functionality: Toggle the legend on/off with a button
+            const legendDiv = document.getElementById("legendDiv");
+            const legendToggle = document.getElementById("legendToggle");
+
+            legendToggle.addEventListener("click", function () {
+                if (legendDiv.style.display === "none") {
+                    legendDiv.style.display = "block";
+                    legendToggle.textContent = "Hide Legend";
+                } else {
+                    legendDiv.style.display = "none";
+                    legendToggle.textContent = "Show Legend";
+                }
             });
-            view.ui.add(searchWidget, {
-                position: "top-left", // Position the search widget in the top-left corner
-                index: 0
+
+            // Hide the legend on load for mobile screens
+            if (window.innerWidth <= 600) {
+                legendDiv.style.display = "none";
+                legendToggle.style.display = "block";
+            } else {
+                legendDiv.style.display = "block";
+                legendToggle.style.display = "none";
+            }
+
+            // Ensure that the layout adapts when resizing the window
+            window.addEventListener("resize", function () {
+                if (window.innerWidth <= 600) {
+                    legendDiv.style.display = "none";
+                    legendToggle.style.display = "block";
+                } else {
+                    legendDiv.style.display = "block";
+                    legendToggle.style.display = "none";
+                }
             });
         });
     </script>
 </body>
+
 </html>
