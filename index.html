@@ -1,141 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charlotte Neighborhood Analysis</title>
-    <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
-    <script src="https://js.arcgis.com/4.28/"></script>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-        }
+require([
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/layers/GeoJSONLayer",
+  "esri/widgets/LayerList",
+  "esri/widgets/Expand"
+], function(Map, MapView, GeoJSONLayer, LayerList, Expand) {
 
-        #viewDiv {
-            height: 100%;
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-    <div id="viewDiv"></div>
+  // Create the map
+  const map = new Map({
+    basemap: "streets-navigation-vector" // Esri basemap
+  });
 
-    <script>
-        require([
-            "esri/Map",
-            "esri/views/MapView",
-            "esri/layers/GeoJSONLayer",
-            "esri/widgets/LayerList",
-            "esri/widgets/Expand"
-        ], function(Map, MapView, GeoJSONLayer, LayerList, Expand) {
+  // Create the view, centered on Charlotte, NC
+  const view = new MapView({
+    container: "viewDiv",
+    map: map,
+    center: [-80.8431, 35.2271], // Coordinates for Charlotte, NC
+    zoom: 12
+  });
 
-            // Create the map
-            const map = new Map({
-                basemap: "streets-navigation-vector" // Esri basemap
-            });
+  // Parks Layer
+  const parksLayer = new GeoJSONLayer({
+    url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Parks.geojson",
+    title: "Parks",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-marker",
+        color: "green",
+        size: 10
+      }
+    },
+    popupTemplate: {
+      title: "{PRKNAME}", // Display the park name as the title
+      content: "<b>Address:</b> {PRKADDR}" // Display park address in the content
+    }
+  });
+  map.add(parksLayer);
 
-            // Create the view, centered on Charlotte, NC
-            const view = new MapView({
-                container: "viewDiv",
-                map: map,
-                center: [-80.8431, 35.2271], // Coordinates for Charlotte, NC
-                zoom: 12
-            });
+  // Schools Layer
+  const schoolsLayer = new GeoJSONLayer({
+    url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Schools_(view_of_points).geojson",
+    title: "Schools",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-marker",
+        color: "blue",
+        size: 10
+      }
+    },
+    popupTemplate: {
+      title: "{SchoolName}", // School name as the title
+      content: "<b>Address:</b> {Address}" // School address in the content
+    }
+  });
+  map.add(schoolsLayer);
 
-            // Parks Layer (Green)
-            const parksLayer = new GeoJSONLayer({
-                url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Parks.geojson",
-                title: "Parks",
-                renderer: {
-                    type: "simple",
-                    symbol: {
-                        type: "simple-marker", // Point symbol for parks
-                        color: "green",  // Color for parks
-                        size: 10
-                    }
-                }
-            });
-            map.add(parksLayer);
+  // Grocery Stores Layer
+  const groceryStoresLayer = new GeoJSONLayer({
+    url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Grocery_Stores_(view_of_points).geojson",
+    title: "Grocery Stores",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-marker",
+        color: "orange",
+        size: 10
+      }
+    },
+    popupTemplate: {
+      title: "{StoreName}", // Grocery store name
+      content: "<b>Address:</b> {Address}" // Grocery store address
+    }
+  });
+  map.add(groceryStoresLayer);
 
-            // Schools Layer (Blue)
-            const schoolsLayer = new GeoJSONLayer({
-                url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Schools_(view_of_points).geojson",
-                title: "Schools",
-                renderer: {
-                    type: "simple",
-                    symbol: {
-                        type: "simple-marker",
-                        color: "blue",
-                        size: 10
-                    }
-                }
-            });
-            map.add(schoolsLayer);
+  // Medical Facilities Layer
+  const medicalFacilitiesLayer = new GeoJSONLayer({
+    url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Medical_Facilities_(points).geojson",
+    title: "Medical Facilities",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-marker",
+        color: "red",
+        size: 10
+      }
+    },
+    popupTemplate: {
+      title: "{FacilityName}", // Medical facility name
+      content: "<b>Address:</b> {Address}" // Medical facility address
+    }
+  });
+  map.add(medicalFacilitiesLayer);
 
-            // Grocery Stores Layer (Orange)
-            const groceryStoresLayer = new GeoJSONLayer({
-                url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Grocery_Stores_(view_of_points).geojson",
-                title: "Grocery Stores",
-                renderer: {
-                    type: "simple",
-                    symbol: {
-                        type: "simple-marker",
-                        color: "orange",
-                        size: 10
-                    }
-                }
-            });
-            map.add(groceryStoresLayer);
+  // Shopping Centers Layer
+  const shoppingCentersLayer = new GeoJSONLayer({
+    url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Existing_Shopping_Centers.geojson",
+    title: "Shopping Centers",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-marker",
+        color: "purple",
+        size: 10
+      }
+    },
+    popupTemplate: {
+      title: "{CenterName}", // Shopping center name
+      content: "<b>Address:</b> {Address}" // Shopping center address
+    }
+  });
+  map.add(shoppingCentersLayer);
 
-            // Medical Facilities Layer (Red)
-            const medicalFacilitiesLayer = new GeoJSONLayer({
-                url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Medical_Facilities_(points).geojson",
-                title: "Medical Facilities",
-                renderer: {
-                    type: "simple",
-                    symbol: {
-                        type: "simple-marker",
-                        color: "red",
-                        size: 10
-                    }
-                }
-            });
-            map.add(medicalFacilitiesLayer);
+  // Add LayerList widget to allow toggling of layers
+  const layerList = new LayerList({
+    view: view
+  });
 
-            // Shopping Centers Layer (Purple)
-            const shoppingCentersLayer = new GeoJSONLayer({
-                url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Existing_Shopping_Centers.geojson",
-                title: "Shopping Centers",
-                renderer: {
-                    type: "simple",
-                    symbol: {
-                        type: "simple-marker",
-                        color: "purple",
-                        size: 10
-                    }
-                }
-            });
-            map.add(shoppingCentersLayer);
+  // Optionally, wrap the LayerList in an Expand widget to save space
+  const expand = new Expand({
+    view: view,
+    content: layerList,
+    expandIconClass: "esri-icon-layer-list", // Icon for the expand button
+    expanded: true
+  });
 
-            // Add LayerList widget to allow toggling of layers
-            const layerList = new LayerList({
-                view: view
-            });
+  view.ui.add(expand, "top-right"); // Add the LayerList widget to the UI
 
-            // Optionally, wrap the LayerList in an Expand widget to save space
-            const expand = new Expand({
-                view: view,
-                content: layerList,
-                expandIconClass: "esri-icon-layer-list", // Icon for the expand button
-                expanded: true
-            });
-
-            view.ui.add(expand, "top-right"); // Add the LayerList widget to the UI
-
-        });
-    </script>
-</body>
-</html>
+});
