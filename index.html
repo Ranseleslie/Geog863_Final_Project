@@ -122,9 +122,10 @@
                 },
                 popupTemplate: {
                     title: "{Name}", // Medical facility name
-                    content:
+                    content: `
                         <b>Service Type:</b> {ServiceType}<br>//Medical facility Type 
-                        <b>Address:</b> {Address}" // Medical facility address
+                        <b>Address:</b> {Address}" 
+                    ` // Medical facility address
                 }
             });
             map.add(medicalFacilitiesLayer);
