@@ -1,7 +1,6 @@
 {
 "type": "FeatureCollection",
 "name": "Grocery_Stores_(view_of_points)",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
 { "type": "Feature", "properties": { "OBJECTID": null, "NUM_ADDR": null, "FULL_ADDRESS": null, "Shape": null, "Name": "Food Lion ", "PID": "01712135", "GlobalID": "{3C31CB7D-D8BC-42E5-86B4-5D3A280039DE}", "BWID": "300159722", "Address": "706 Gilead Rd", "DateAdded": "2019-01-01T00:00:00Z", "DateDeleted": null }, "geometry": null },
 { "type": "Feature", "properties": { "OBJECTID": 1443, "NUM_ADDR": "307894", "FULL_ADDRESS": "1227 EAST BV", "Name": "Harris Teeter", "PID": "12312713", "GlobalID": "{438A3E26-10CC-4CE5-8D00-93C9DEAEEB12}", "BWID": "100036509", "Address": "1227 East Blvd", "DateAdded": "2019-01-01T00:00:00Z", "DateDeleted": null }, "geometry": { "type": "Point", "coordinates": [ -80.844631120737688, 35.203564736517535 ] } },
