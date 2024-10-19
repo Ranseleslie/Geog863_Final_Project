@@ -28,8 +28,9 @@
             "esri/Map",
             "esri/views/MapView",
             "esri/layers/GeoJSONLayer",
-            "esri/widgets/LayerList"
-        ], function(Map, MapView, GeoJSONLayer, LayerList) {
+            "esri/widgets/LayerList",
+            "esri/widgets/Expand"
+        ], function(Map, MapView, GeoJSONLayer, LayerList, Expand) {
 
             // Create the map
             const map = new Map({
@@ -45,35 +46,30 @@
             });
 
             // Add the GeoJSON layers from your GitHub repo
-            // Parks Layer
             const parksLayer = new GeoJSONLayer({
                 url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Parks.geojson",
                 title: "Parks"
             });
             map.add(parksLayer);
 
-            // Schools Layer
             const schoolsLayer = new GeoJSONLayer({
                 url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Schools_(view_of_points).geojson",
                 title: "Schools"
             });
             map.add(schoolsLayer);
 
-            // Grocery Stores Layer
             const groceryStoresLayer = new GeoJSONLayer({
                 url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Grocery_Stores_(view_of_points).geojson",
                 title: "Grocery Stores"
             });
             map.add(groceryStoresLayer);
 
-            // Medical Facilities Layer
             const medicalFacilitiesLayer = new GeoJSONLayer({
                 url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Medical_Facilities_(points).geojson",
                 title: "Medical Facilities"
             });
             map.add(medicalFacilitiesLayer);
 
-            // Shopping Centers Layer
             const shoppingCentersLayer = new GeoJSONLayer({
                 url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Existing_Shopping_Centers.geojson",
                 title: "Shopping Centers"
@@ -85,7 +81,15 @@
                 view: view
             });
 
-            view.ui.add(layerList, "top-right");
+            // Optionally, wrap the LayerList in an Expand widget to save space
+            const expand = new Expand({
+                view: view,
+                content: layerList,
+                expandIconClass: "esri-icon-layer-list", // Icon for the expand button
+                expanded: true
+            });
+
+            view.ui.add(expand, "top-right"); // Add the LayerList widget to the UI
 
         });
     </script>
