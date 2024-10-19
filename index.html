@@ -26,8 +26,9 @@
     <script>
         require([
             "esri/Map",
-            "esri/views/MapView"
-        ], function(Map, MapView) {
+            "esri/views/MapView",
+            "esri/layers/GeoJSONLayer"
+        ], function(Map, MapView, GeoJSONLayer) {
 
             // Create the map
             const map = new Map({
@@ -41,6 +42,102 @@
                 center: [-80.8431, 35.2271], // Coordinates for Charlotte, NC
                 zoom: 12 // Adjust the zoom level to focus on the city
             });
+
+            // Add the GeoJSON layers from your GitHub repo
+            // Parks Layer
+            const parksLayer = new GeoJSONLayer({
+                url: "https://raw.githubusercontent.com/ranseleslie/Geog863_Final_Project/main/Parks.geojson",
+                title: "Parks",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "simple-fill",
+                        color: "green",
+                        outline: {
+                            width: 1,
+                            color: "darkgreen"
+                        }
+                    }
+                }
+            });
+            map.add(parksLayer);
+
+            // Schools Layer
+            const schoolsLayer = new GeoJSONLayer({
+                url: "https://raw.githubusercontent.com/ranseleslie/Geog863_Final_Project/main/Schools_(view_of_points).geojson",
+                title: "Schools",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "simple-marker",
+                        color: "blue",
+                        size: 8
+                    }
+                },
+                popupTemplate: {
+                    title: "School",
+                    content: "{SchoolName} located at {Address}"
+                }
+            });
+            map.add(schoolsLayer);
+
+            // Grocery Stores Layer
+            const groceryStoresLayer = new GeoJSONLayer({
+                url: "https://raw.githubusercontent.com/ranseleslie/Geog863_Final_Project/main/Grocery_Stores_(view_of_points).geojson",
+                title: "Grocery Stores",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "simple-marker",
+                        color: "orange",
+                        size: 8
+                    }
+                },
+                popupTemplate: {
+                    title: "Grocery Store",
+                    content: "{StoreName} located at {Address}"
+                }
+            });
+            map.add(groceryStoresLayer);
+
+            // Medical Facilities Layer
+            const medicalFacilitiesLayer = new GeoJSONLayer({
+                url: "https://raw.githubusercontent.com/ranseleslie/Geog863_Final_Project/main/Medical_Facilities_(points).geojson",
+                title: "Medical Facilities",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "simple-marker",
+                        color: "red",
+                        size: 8
+                    }
+                },
+                popupTemplate: {
+                    title: "Medical Facility",
+                    content: "{FacilityName} located at {Address}"
+                }
+            });
+            map.add(medicalFacilitiesLayer);
+
+            // Shopping Centers Layer
+            const shoppingCentersLayer = new GeoJSONLayer({
+                url: "https://raw.githubusercontent.com/ranseleslie/Geog863_Final_Project/main/Existing_Shopping_Centers.geojson",
+                title: "Shopping Centers",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "simple-marker",
+                        color: "purple",
+                        size: 8
+                    }
+                },
+                popupTemplate: {
+                    title: "Shopping Center",
+                    content: "{CenterName} located at {Address}"
+                }
+            });
+            map.add(shoppingCentersLayer);
+
         });
     </script>
 </body>
