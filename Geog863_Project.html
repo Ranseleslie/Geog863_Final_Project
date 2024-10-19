@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charlotte Neighborhood Analysis</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.28/"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #viewDiv {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="viewDiv"></div>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView"
+        ], function(Map, MapView) {
+
+            // Create the map
+            const map = new Map({
+                basemap: "streets-navigation-vector" // Esri basemap
+            });
+
+            // Create the view, centered on Charlotte, NC
+            const view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [-80.8431, 35.2271], // Coordinates for Charlotte, NC
+                zoom: 12 // Adjust the zoom level to focus on the city
+            });
+        });
+    </script>
+</body>
+</html>
