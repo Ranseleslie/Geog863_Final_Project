@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -85,7 +85,6 @@
                         <b>Grade Level:</b> {GradeLevel}
                     ` // Display address, type of school, and grade level
                  }
-
             });
             map.add(schoolsLayer);
 
@@ -123,9 +122,9 @@
                 popupTemplate: {
                     title: "{Name}", // Medical facility name
                     content: `
-                        <b>Service Type:</b> {ServiceType}<br>//Medical facility Type 
-                        <b>Address:</b> {Address}" 
-                    ` // Medical facility address
+                        <b>Service Type:</b> {ServiceType}<br>
+                        <b>Address:</b> {Address}
+                    ` // Display service type and address
                 }
             });
             map.add(medicalFacilitiesLayer);
