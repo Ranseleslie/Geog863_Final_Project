@@ -27,8 +27,9 @@
         require([
             "esri/Map",
             "esri/views/MapView",
-            "esri/layers/GeoJSONLayer"
-        ], function(Map, MapView, GeoJSONLayer) {
+            "esri/layers/GeoJSONLayer",
+            "esri/widgets/LayerList"
+        ], function(Map, MapView, GeoJSONLayer, LayerList) {
 
             // Create the map
             const map = new Map({
@@ -40,103 +41,51 @@
                 container: "viewDiv",
                 map: map,
                 center: [-80.8431, 35.2271], // Coordinates for Charlotte, NC
-                zoom: 12 // Adjust the zoom level to focus on the city
+                zoom: 12
             });
 
             // Add the GeoJSON layers from your GitHub repo
             // Parks Layer
             const parksLayer = new GeoJSONLayer({
-                url: "https://raw.githubusercontent.com/ranseleslie/Geog863_Final_Project/main/Parks.geojson",
-                title: "Parks",
-                renderer: {
-                    type: "simple",
-                    symbol: {
-                        type: "simple-fill",
-                        color: "green",
-                        outline: {
-                            width: 1,
-                            color: "darkgreen"
-                        }
-                    }
-                }
+                url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Parks.geojson",
+                title: "Parks"
             });
             map.add(parksLayer);
 
             // Schools Layer
             const schoolsLayer = new GeoJSONLayer({
-                url: "https://raw.githubusercontent.com/ranseleslie/Geog863_Final_Project/main/Schools_(view_of_points).geojson",
-                title: "Schools",
-                renderer: {
-                    type: "simple",
-                    symbol: {
-                        type: "simple-marker",
-                        color: "blue",
-                        size: 8
-                    }
-                },
-                popupTemplate: {
-                    title: "School",
-                    content: "{SchoolName} located at {Address}"
-                }
+                url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Schools_(view_of_points).geojson",
+                title: "Schools"
             });
             map.add(schoolsLayer);
 
             // Grocery Stores Layer
             const groceryStoresLayer = new GeoJSONLayer({
-                url: "https://raw.githubusercontent.com/ranseleslie/Geog863_Final_Project/main/Grocery_Stores_(view_of_points).geojson",
-                title: "Grocery Stores",
-                renderer: {
-                    type: "simple",
-                    symbol: {
-                        type: "simple-marker",
-                        color: "orange",
-                        size: 8
-                    }
-                },
-                popupTemplate: {
-                    title: "Grocery Store",
-                    content: "{StoreName} located at {Address}"
-                }
+                url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Grocery_Stores_(view_of_points).geojson",
+                title: "Grocery Stores"
             });
             map.add(groceryStoresLayer);
 
             // Medical Facilities Layer
             const medicalFacilitiesLayer = new GeoJSONLayer({
-                url: "https://raw.githubusercontent.com/ranseleslie/Geog863_Final_Project/main/Medical_Facilities_(points).geojson",
-                title: "Medical Facilities",
-                renderer: {
-                    type: "simple",
-                    symbol: {
-                        type: "simple-marker",
-                        color: "red",
-                        size: 8
-                    }
-                },
-                popupTemplate: {
-                    title: "Medical Facility",
-                    content: "{FacilityName} located at {Address}"
-                }
+                url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Medical_Facilities_(points).geojson",
+                title: "Medical Facilities"
             });
             map.add(medicalFacilitiesLayer);
 
             // Shopping Centers Layer
             const shoppingCentersLayer = new GeoJSONLayer({
-                url: "https://raw.githubusercontent.com/ranseleslie/Geog863_Final_Project/main/Existing_Shopping_Centers.geojson",
-                title: "Shopping Centers",
-                renderer: {
-                    type: "simple",
-                    symbol: {
-                        type: "simple-marker",
-                        color: "purple",
-                        size: 8
-                    }
-                },
-                popupTemplate: {
-                    title: "Shopping Center",
-                    content: "{CenterName} located at {Address}"
-                }
+                url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Existing_Shopping_Centers.geojson",
+                title: "Shopping Centers"
             });
             map.add(shoppingCentersLayer);
+
+            // Add LayerList widget to allow toggling of layers
+            const layerList = new LayerList({
+                view: view
+            });
+
+            view.ui.add(layerList, "top-right");
 
         });
     </script>
