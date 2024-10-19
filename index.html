@@ -45,25 +45,25 @@
                 zoom: 12
             });
 
-            // Parks Layer - Green Color
+            // Parks Layer (Green)
             const parksLayer = new GeoJSONLayer({
                 url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Parks.geojson",
                 title: "Parks",
                 renderer: {
                     type: "simple",
                     symbol: {
-                        type: "simple-fill", // For polygon features
-                        color: "green",
+                        type: "simple-fill", // For polygon features like parks
+                        color: "rgba(0, 255, 0, 0.5)", // Semi-transparent green
                         outline: {
-                            width: 1,
-                            color: "darkgreen"
+                            color: "darkgreen",
+                            width: 1
                         }
                     }
                 }
             });
             map.add(parksLayer);
 
-            // Schools Layer - Blue Color
+            // Schools Layer (Blue)
             const schoolsLayer = new GeoJSONLayer({
                 url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Schools_(view_of_points).geojson",
                 title: "Schools",
@@ -72,13 +72,13 @@
                     symbol: {
                         type: "simple-marker",
                         color: "blue",
-                        size: 8
+                        size: 10
                     }
                 }
             });
             map.add(schoolsLayer);
 
-            // Grocery Stores Layer - Orange Color
+            // Grocery Stores Layer (Orange)
             const groceryStoresLayer = new GeoJSONLayer({
                 url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Grocery_Stores_(view_of_points).geojson",
                 title: "Grocery Stores",
@@ -87,13 +87,13 @@
                     symbol: {
                         type: "simple-marker",
                         color: "orange",
-                        size: 8
+                        size: 10
                     }
                 }
             });
             map.add(groceryStoresLayer);
 
-            // Medical Facilities Layer - Red Color
+            // Medical Facilities Layer (Red)
             const medicalFacilitiesLayer = new GeoJSONLayer({
                 url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Medical_Facilities_(points).geojson",
                 title: "Medical Facilities",
@@ -102,13 +102,13 @@
                     symbol: {
                         type: "simple-marker",
                         color: "red",
-                        size: 8
+                        size: 10
                     }
                 }
             });
             map.add(medicalFacilitiesLayer);
 
-            // Shopping Centers Layer - Purple Color
+            // Shopping Centers Layer (Purple)
             const shoppingCentersLayer = new GeoJSONLayer({
                 url: "https://raw.githubusercontent.com/Ranseleslie/Geog863_Final_Project/main/Existing_Shopping_Centers.geojson",
                 title: "Shopping Centers",
@@ -117,7 +117,7 @@
                     symbol: {
                         type: "simple-marker",
                         color: "purple",
-                        size: 8
+                        size: 10
                     }
                 }
             });
