@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,20 +18,11 @@
             height: 100%;
             width: 100%;
         }
-
-        /* Style to make the legend smaller */
-        .esri-legend {
-            font-size: 0.8em;  /* Reduce font size */
-            line-height: 1.0em; /* Adjust line height */
-            width: 125px; /* Set a specific width */
-        }
     </style>
 </head>
 <body>
-    <!-- This is where the map will be displayed -->
     <div id="viewDiv"></div>
 
-    <!-- Start the JavaScript block -->
     <script>
         require([
             "esri/Map",
@@ -39,19 +30,20 @@
             "esri/layers/GeoJSONLayer",
             "esri/widgets/LayerList",
             "esri/widgets/Expand",
-            "esri/widgets/Legend" // Import Legend widget
-        ], function(Map, MapView, GeoJSONLayer, LayerList, Expand, Legend) {
+            "esri/widgets/Legend",
+            "esri/widgets/Search"  // Import the Search widget
+        ], function(Map, MapView, GeoJSONLayer, LayerList, Expand, Legend, Search) {
 
             // Create the map
             const map = new Map({
-                basemap: "streets-navigation-vector" // Esri basemap
+                basemap: "streets-navigation-vector"
             });
 
             // Create the view, centered on Charlotte, NC
             const view = new MapView({
                 container: "viewDiv",
                 map: map,
-                center: [-80.8431, 35.2271], // Coordinates for Charlotte, NC
+                center: [-80.8431, 35.2271],
                 zoom: 12
             });
 
@@ -68,8 +60,8 @@
                     }
                 },
                 popupTemplate: {
-                    title: "{PRKNAME}", // Display the park name as the title
-                    content: "<b>Address:</b> {PRKADDR}, {CITY}, {STATE} {ZIP}" // Park address including city, state, and zip
+                    title: "{PRKNAME}",
+                    content: "<b>Address:</b> {PRKADDR}, {CITY}, {STATE} {ZIP}"
                 }
             });
             map.add(parksLayer);
@@ -87,12 +79,12 @@
                     }
                 },
                 popupTemplate: {
-                    title: "{Name}", // School name as the title
+                    title: "{Name}",
                     content: `
                         <b>Type:</b> {Ownership}<br>
                         <b>Grade Level:</b> {GradeLevel}
-                    ` // Display address, type of school, and grade level
-                 }
+                    `
+                }
             });
             map.add(schoolsLayer);
 
@@ -109,8 +101,8 @@
                     }
                 },
                 popupTemplate: {
-                    title: "{Name}", // Grocery store name
-                    content: "<b>Address:</b> {FULL_ADDRESS}" // Grocery store address
+                    title: "{Name}",
+                    content: "<b>Address:</b> {FULL_ADDRESS}"
                 }
             });
             map.add(groceryStoresLayer);
@@ -128,11 +120,11 @@
                     }
                 },
                 popupTemplate: {
-                    title: "{Name}", // Medical facility name
+                    title: "{Name}",
                     content: `
                         <b>Service Type:</b> {ServiceType}<br>
                         <b>Address:</b> {Address}
-                    ` // Display service type and address
+                    `
                 }
             });
             map.add(medicalFacilitiesLayer);
@@ -150,8 +142,8 @@
                     }
                 },
                 popupTemplate: {
-                    title: "{CenterName}", // Shopping center name
-                    content: "<b>Address:</b> {Address}" // Shopping center address
+                    title: "{CenterName}",
+                    content: "<b>Address:</b> {Address}"
                 }
             });
             map.add(shoppingCentersLayer);
@@ -165,12 +157,11 @@
             const expand = new Expand({
                 view: view,
                 content: layerList,
-                expandIconClass: "esri-icon-layer-list", // Icon for the expand button
+                expandIconClass: "esri-icon-layer-list",
                 expanded: true
             });
+            view.ui.add(expand, "top-right");
 
-            view.ui.add(expand, "top-right"); // Add the LayerList widget to the UI
-            
             // Add the Legend widget
             const legend = new Legend({
                 view: view,
@@ -182,10 +173,19 @@
                     { layer: shoppingCentersLayer, title: "Shopping Centers" }
                 ]
             });
+            view.ui.add(legend, "bottom-left");
 
-            view.ui.add(legend, "bottom-left"); // Add the Legend widget to the UI
+            // Add the Search widget (Custom Geocoder)
+            const searchWidget = new Search({
+                view: view, // The view where the search will be added
+                allPlaceholder: "Search for address or place", // Placeholder text
+                includeDefaultSources: true // Includes the default Esri World Geocoding service
+            });
+            view.ui.add(searchWidget, {
+                position: "top-left", // Position the search widget in the top-left corner
+                index: 0
+            });
         });
     </script>
-    <!-- End the JavaScript block -->
 </body>
 </html>
