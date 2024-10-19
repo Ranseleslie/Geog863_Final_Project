@@ -52,12 +52,9 @@
                 renderer: {
                     type: "simple",
                     symbol: {
-                        type: "simple-fill", // For polygon features like parks
-                        color: "rgba(0, 255, 0, 0.5)", // Semi-transparent green
-                        outline: {
-                            color: "darkgreen",
-                            width: 1
-                        }
+                        type: "simple-marker", // Point symbol for parks
+                        color: "green",  // Color for parks
+                        size: 10
                     }
                 }
             });
