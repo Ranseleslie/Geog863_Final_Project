@@ -33,7 +33,7 @@ require([
     },
     popupTemplate: {
       title: "{PRKNAME}", // Display the park name as the title
-      content: "<b>Address:</b> {PRKADDR}" // Display park address in the content
+      content: "<b>Address:</b> {PRKADDR}, {CITY}, {STATE} {ZIP}" // Park address including city, state, and zip
     }
   });
   map.add(parksLayer);
