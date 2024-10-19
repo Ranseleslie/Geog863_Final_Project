@@ -31,7 +31,7 @@
             "esri/views/MapView",
             "esri/layers/GeoJSONLayer",
             "esri/widgets/LayerList",
-            "esri/widgets/Expand"
+            "esri/widgets/Expand",
             "esri/widgets/Legend" // Import Legend widget
         ], function(Map, MapView, GeoJSONLayer, LayerList, Expand, Legend) {
 
@@ -163,16 +163,20 @@
             });
 
             view.ui.add(expand, "top-right"); // Add the LayerList widget to the UI
-             // Add the Legend widget
-    const legend = new Legend({
-        view: view,
-        layerInfos: [
-            { layer: parksLayer, title: "Parks" },
-            { layer: schoolsLayer, title: "Schools" },
-            { layer: groceryStoresLayer, title: "Grocery Stores" },
-            { layer: medicalFacilitiesLayer, title: "Medical Facilities" },
-            { layer: shoppingCentersLayer, title: "Shopping Centers" }
-        ]
+            
+            // Add the Legend widget
+            const legend = new Legend({
+                view: view,
+                layerInfos: [
+                    { layer: parksLayer, title: "Parks" },
+                    { layer: schoolsLayer, title: "Schools" },
+                    { layer: groceryStoresLayer, title: "Grocery Stores" },
+                    { layer: medicalFacilitiesLayer, title: "Medical Facilities" },
+                    { layer: shoppingCentersLayer, title: "Shopping Centers" }
+                ]
+            });
+
+            view.ui.add(legend, "bottom-left"); // Add the Legend widget to the UI
         });
     </script>
     <!-- End the JavaScript block -->
